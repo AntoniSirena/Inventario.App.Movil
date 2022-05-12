@@ -14,6 +14,11 @@ export class AppComponent {
       url: '/profile',
       icon: 'person',
     },
+    {
+      title: 'Inventario',
+      url: '/inventory',
+      icon: 'clipboard',
+    },
 
   ];
 

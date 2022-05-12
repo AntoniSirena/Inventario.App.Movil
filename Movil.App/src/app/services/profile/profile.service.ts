@@ -16,4 +16,13 @@ export class ProfileService {
     return profile;
   }
 
+  getUserToken(): string {
+    let data = JSON.parse(localStorage.getItem('sectionData'));
+    let profile: Profile = data?.Profile;
+
+    let token = profile.User.Token;
+
+    return token;
+  }
+
 }
