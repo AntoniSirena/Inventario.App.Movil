@@ -38,7 +38,6 @@ export class HttpInterceptorService implements HttpInterceptor{
 
     let headers = new HttpHeaders();
     headers = headers.append('content-type', 'application/json');
-    headers = headers.append('Access-Control-Allow-Headers', '*');
 
     if (req.url.match("login")) {
 

@@ -34,6 +34,7 @@ const routes: Routes = [
   },
   {
     path: 'inventory',
+    canActivate: [AuthGuard],
     loadChildren: () => import('./pages/domain/inventory/inventory/inventory.module').then( m => m.InventoryPageModule)
   }
 

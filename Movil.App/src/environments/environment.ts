@@ -4,5 +4,5 @@
 
 export const environment = {
   production: false,
-  coreURL: 'http://localhost:61090/',
+  coreURL: 'http://fast-inventario.jssoluctech.com/core/',
 }
