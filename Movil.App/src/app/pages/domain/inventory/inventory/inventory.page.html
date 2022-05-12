@@ -11,7 +11,14 @@
 <ion-content>
 
   <br>
+
+  <ion-button (click)="openModalCreateInventory()" expand="block" color="primary" style="font-weight: bold; margin-bottom: 20px; margin-left: 15px; margin-right: 15px;">Aperturar inventario</ion-button>
+
   <ion-card *ngFor="let item of inventories" class="card">
+
+    <ion-card-header style="margin-bottom: 10px;">
+      <ion-button *ngIf="item.StatuShortName === 'Open'" class="btn-more" (click)="moreActionSheet()" color="light">...</ion-button>
+    </ion-card-header>
 
     <ion-card-content>
 
