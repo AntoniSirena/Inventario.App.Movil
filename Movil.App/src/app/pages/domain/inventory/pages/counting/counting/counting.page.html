@@ -1,0 +1,57 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title style="color: red; font-size: 12px; font-weight: bold;">{{product.Description}}</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button color="danger" style="font-weight: bold;" (click)="closeModal(false)">Cerrar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-card>
+
+    <ion-card-content>
+      
+      <form [formGroup]="countingForm" (submit)="saveItem(countingForm.value)"> 
+
+        <ion-item>
+          <ion-label position="floating">Costo</ion-label>
+          <ion-input type="number" formControlName="cost"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Precio</ion-label>
+          <ion-input type="number" formControlName="price"></ion-input>
+        </ion-item>
+    
+        <ion-item>
+          <ion-label position="floating">Cantidad</ion-label>
+          <ion-input type="number" formControlName="quantity"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Seleccione el tramo</ion-label>
+          <ion-select value="tramo" interface="action-sheet" formControlName="sectionId">
+            <ion-select-option *ngFor="let item of sections" value="{{item.Id}}">{{item.Description}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        
+        <ion-item>
+          <ion-label position="floating">Seleccione la bandeja</ion-label>
+          <ion-select value="bandeja" interface="action-sheet" formControlName="tariffId">
+            <ion-select-option *ngFor="let item of tariffs" value="{{item.Id}}">{{item.Description}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <br>
+        <ion-button type="submit" expand="block" color="primary" [disabled]="countingForm.invalid">Guardar</ion-button>
+      </form>
+
+    </ion-card-content>
+
+  </ion-card>
+
+</ion-content>

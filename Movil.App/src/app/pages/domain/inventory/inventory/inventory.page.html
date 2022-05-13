@@ -22,23 +22,14 @@
 
     <ion-card-content>
 
-      <ion-label class="label">Código:</ion-label>
-      <p class="p">{{item.Id}}</p>
-
-      <ion-label class="label">Descripción:</ion-label>
-      <p class="p">{{item.Description}}</p>
-
-      <ion-label class="label">Estado:</ion-label>
-      <p class="p">{{item.Status}}</p>
-
-      <ion-label class="label">Fecha de apertura:</ion-label>
-      <p class="p">{{item.OpenDate}}</p>
-
-      <ion-label class="label">Fecha de cierre:</ion-label>
-      <p class="p">{{item.ClosedDate}}</p>
-
-      <ion-label class="label">Usuario:</ion-label>
-      <p class="p">{{item.UserName}}</p>
+      <ion-label>
+        <h2 style="font-weight: bold; color: red;">{{item.Description}}</h2>
+        <h2> <span class="item">Código: </span> {{item.Id}}</h2>
+        <h2> <span class="item">Estado: </span> {{item.Status}}</h2>
+        <h2> <span class="item">Fecha de apertura: </span> {{item.OpenDate}}</h2>
+        <h2> <span class="item">Fecha de cierre: </span> {{item.ClosedDate}}</h2>
+        <h2> <span class="item">Usuario: </span> {{item.UserName}}</h2>
+      </ion-label>
 
     </ion-card-content>
 

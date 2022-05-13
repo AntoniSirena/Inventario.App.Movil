@@ -43,6 +43,10 @@ const routes: Routes = [
   },  {
     path: 'inventory-details',
     loadChildren: () => import('./pages/domain/inventory/pages/inventoryDetails/inventory-details/inventory-details.module').then( m => m.InventoryDetailsPageModule)
+  },
+  {
+    path: 'counting',
+    loadChildren: () => import('./pages/domain/inventory/pages/counting/counting/counting.module').then( m => m.CountingPageModule)
   }
 
 

@@ -5,6 +5,7 @@ import { Product } from 'src/app/models/product';
 import { InventoryService } from 'src/app/services/domain/inventory/inventory.service';
 import { Inventory } from 'src/app/models/inventory';
 import { Iresponse } from 'src/app/interfaces/Iresponse';
+import { CountingPage } from '../../counting/counting/counting.page';
 
 @Component({
   selector: 'app-inventory-details',
@@ -45,6 +46,21 @@ export class InventoryDetailsPage implements OnInit {
       });
   }
 
+
+  async openModalCountingInventory(data?: any) {
+    const modal = await this.modalController.create({
+      component: CountingPage,
+      componentProps: { data: data },
+    });
+
+    modal.onDidDismiss().then((param) => {
+      if(param.data){
+        this.getInventoryDetails(param.data);
+      }
+    });
+
+    await modal.present();
+  }
 
 
 }
