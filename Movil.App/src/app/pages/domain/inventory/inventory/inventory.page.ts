@@ -3,6 +3,9 @@ import { Inventory, InventoryModel } from 'src/app/models/inventory';
 import { Product } from 'src/app/models/product';
 import { InventoryService } from './../../../../services/domain/inventory/inventory.service';
 import { ActionSheetController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
+import { CreateOrEditPage } from '../pages/createOrEdit/create-or-edit/create-or-edit.page';
+
 
 @Component({
   selector: 'app-inventory',
@@ -27,7 +30,8 @@ export class InventoryPage implements OnInit {
 
   constructor(
     private inventoryService: InventoryService,
-    private actionSheetController: ActionSheetController
+    private actionSheetController: ActionSheetController,
+    private modalController: ModalController,
   ) { }
 
 
@@ -46,7 +50,8 @@ export class InventoryPage implements OnInit {
   }
 
 
-  async moreActionSheet() {
+  async moreActionSheet(inventoy: Inventory) {
+
     const actionSheet = await this.actionSheetController.create({
       backdropDismiss: true,
       buttons: [
@@ -70,7 +75,7 @@ export class InventoryPage implements OnInit {
           text: 'Editar',
           icon: 'pencil',
           handler: () => {
-            alert('Editar');
+            this.openModalCreateOrEditInventory(inventoy);
           }
         },
 
@@ -98,9 +103,19 @@ export class InventoryPage implements OnInit {
 
   }
 
-  openModalCreateInventory() {
-    alert('En proceso')
-  }
 
+  async openModalCreateOrEditInventory(data?: any) {
+    const modal = await this.modalController.create({
+      component: CreateOrEditPage,
+      componentProps: {data: data},
+    });
+
+    modal.onDidDismiss().then(() => {
+      this.getAll();
+    })
+
+    await modal.present();
+
+  }
 
 }

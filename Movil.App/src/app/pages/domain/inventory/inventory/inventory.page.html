@@ -17,7 +17,7 @@
   <ion-card *ngFor="let item of inventories" class="card">
 
     <ion-card-header style="margin-bottom: 10px;">
-      <ion-button *ngIf="item.StatuShortName === 'Open'" class="btn-more" (click)="moreActionSheet()" color="light">...</ion-button>
+      <ion-button *ngIf="item.StatuShortName === 'Open'" class="btn-more" (click)="moreActionSheet(item)" color="light">...</ion-button>
     </ion-card-header>
 
     <ion-card-content>
