@@ -88,7 +88,7 @@ export class InventoryPage implements OnInit {
           text: 'Cerrar inventario',
           icon: 'close',
           handler: () => {
-            alert('Cerrar inventario');
+            this.CloseInventoryAlert(inventoy.Id);
           }
         },
 
@@ -169,6 +169,46 @@ export class InventoryPage implements OnInit {
   }
 
 
+  async CloseInventoryAlert(id: number) {
+    const alert = await this.alertController.create({
+      header: 'Está seguro que desea cerrar el inventario ?',
+      message: 'Los cambios no podran ser revertidos!',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          id: 'cancel-button',
+          handler: () => {
+
+          }
+        }, {
+          text: 'Sí',
+          id: 'confirm-button',
+          handler: () => {
+            this.CloseInventory(id);
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  CloseInventory(id: number) {
+    this.inventoryService.closedInventory(id).subscribe((response: Iresponse) => {
+      if (response.Code === responseCode.ok) {
+        this.showMessage(response.Message, 'success', 2000);
+        this.getAll();
+      } else {
+        this.showMessage(response.Message, 'danger', 4000);
+      }
+    },
+      error => {
+        console.log(JSON.stringify(error));
+      });
+
+  }
+
 
   async showMessage(text: string, color: string, duration: number) {
     const toast = await this.toastController.create({
@@ -178,7 +218,6 @@ export class InventoryPage implements OnInit {
     });
     toast.present();
   }
-
 
 
 }
