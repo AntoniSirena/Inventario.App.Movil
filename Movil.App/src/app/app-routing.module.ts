@@ -40,7 +40,11 @@ const routes: Routes = [
   {
     path: 'create-or-edit',
     loadChildren: () => import('./pages/domain/inventory/pages/createOrEdit/create-or-edit/create-or-edit.module').then( m => m.CreateOrEditPageModule)
+  },  {
+    path: 'inventory-details',
+    loadChildren: () => import('./pages/domain/inventory/pages/inventoryDetails/inventory-details/inventory-details.module').then( m => m.InventoryDetailsPageModule)
   }
+
 
 
 

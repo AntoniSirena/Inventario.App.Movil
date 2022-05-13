@@ -8,6 +8,7 @@ import { CreateOrEditPage } from '../pages/createOrEdit/create-or-edit/create-or
 import { iif } from 'rxjs';
 import { Iresponse } from 'src/app/interfaces/Iresponse';
 import { responseCode } from './../../../../configurations/responseCode';
+import { InventoryDetailsPage } from '../pages/inventoryDetails/inventory-details/inventory-details.page';
 
 
 @Component({
@@ -96,7 +97,7 @@ export class InventoryPage implements OnInit {
           text: 'Contar items',
           icon: 'checkmark-circle-outline',
           handler: () => {
-            alert('Contar items');
+            this.openModalInventoryDetails(inventoy);
           }
         },
 
@@ -112,12 +113,29 @@ export class InventoryPage implements OnInit {
   async openModalCreateOrEditInventory(data?: any) {
     const modal = await this.modalController.create({
       component: CreateOrEditPage,
-      componentProps: {data: data},
+      componentProps: { data: data },
     });
 
     modal.onDidDismiss().then((param) => {
-      if(param.data){
+      if (param.data) {
         this.getAll();
+      }
+
+    });
+
+    await modal.present();
+
+  }
+
+
+  async openModalInventoryDetails(data?: any) {
+    const modal = await this.modalController.create({
+      component: InventoryDetailsPage,
+      componentProps: { data: data },
+    });
+
+    modal.onDidDismiss().then((param) => {
+      if (param.data) {
       }
 
     });

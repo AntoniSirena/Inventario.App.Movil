@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Conteo físico de mercancías</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button color="danger" style="font-weight: bold;" (click)="closeModal(false)">Cerrar</ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-list style="margin-left: 10; margin-right: 10px;" *ngFor="let item of inventoryDetails">
+
+    <ion-item>
+      <ion-label>
+        <h2 style="font-weight: bold; color: red;">{{item.Description}}</h2>
+        <h2> <span class="item">ódigo: </span> {{item.ExternalCode}}</h2>
+        <h2> <span class="item">Barra: </span> {{item.BarCode}}</h2>
+        <h2> <span class="item">Costo anterior: </span> {{item.OldCost}}</h2>
+        <h2> <span class="item">Precio anterior: </span> {{item.OldPrice}}</h2>
+        <h2> <span class="item">Costo actual: </span> {{item.Cost}}</h2>
+        <h2> <span class="item">Precio actual: </span> {{item.Price}}</h2>
+        <h2> <span class="item">Tramo: </span> {{item.SectionDescription}}</h2>
+        <h2> <span class="item">Bandeja: </span> {{item.TariffDescription}}</h2>
+        <h2> <span class="item">Cantidad: </span> <span style="color: red; font-weight: bold;">{{item.Quantity}}</span> </h2>
+        <h2> <span class="item">Usuario: </span> {{item.UserName}}</h2>
+
+        <span> <ion-button color="primary" size="small">Editar</ion-button> </span> &nbsp;
+        <span> <ion-button color="danger" size="small">Eliminar</ion-button> </span>
+
+      </ion-label>
+    </ion-item>
+
+  </ion-list>
+
+</ion-content>
