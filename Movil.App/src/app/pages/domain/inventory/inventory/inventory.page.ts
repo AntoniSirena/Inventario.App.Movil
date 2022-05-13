@@ -2,9 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { Inventory, InventoryModel } from 'src/app/models/inventory';
 import { Product } from 'src/app/models/product';
 import { InventoryService } from './../../../../services/domain/inventory/inventory.service';
-import { ActionSheetController } from '@ionic/angular';
+import { ActionSheetController, AlertController, ToastController } from '@ionic/angular';
 import { ModalController } from '@ionic/angular';
 import { CreateOrEditPage } from '../pages/createOrEdit/create-or-edit/create-or-edit.page';
+import { iif } from 'rxjs';
+import { Iresponse } from 'src/app/interfaces/Iresponse';
+import { responseCode } from './../../../../configurations/responseCode';
 
 
 @Component({
@@ -32,6 +35,8 @@ export class InventoryPage implements OnInit {
     private inventoryService: InventoryService,
     private actionSheetController: ActionSheetController,
     private modalController: ModalController,
+    private alertController: AlertController,
+    private toastController: ToastController,
   ) { }
 
 
@@ -67,7 +72,7 @@ export class InventoryPage implements OnInit {
           text: 'Eliminar',
           icon: 'trash',
           handler: () => {
-            alert('Eliminar');
+            this.deleteInventoryAlert(inventoy.Id);
           }
         },
 
@@ -110,12 +115,70 @@ export class InventoryPage implements OnInit {
       componentProps: {data: data},
     });
 
-    modal.onDidDismiss().then(() => {
-      this.getAll();
-    })
+    modal.onDidDismiss().then((param) => {
+      if(param.data){
+        this.getAll();
+      }
+
+    });
 
     await modal.present();
 
   }
+
+
+  async deleteInventoryAlert(id: number) {
+    const alert = await this.alertController.create({
+      header: 'Está seguro que desea eliminar el inventario ?',
+      message: 'Los cambios no podran ser revertidos!',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          id: 'cancel-button',
+          handler: () => {
+
+          }
+        }, {
+          text: 'Sí',
+          id: 'confirm-button',
+          handler: () => {
+            this.deleteInventory(id);
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+
+  deleteInventory(id: number) {
+    this.inventoryService.delete(id).subscribe((response: Iresponse) => {
+      if (response.Code === responseCode.ok) {
+        this.showMessage(response.Message, 'success', 2000);
+        this.getAll();
+      } else {
+        this.showMessage(response.Message, 'danger', 4000);
+      }
+    },
+      error => {
+        console.log(JSON.stringify(error));
+      });
+
+  }
+
+
+
+  async showMessage(text: string, color: string, duration: number) {
+    const toast = await this.toastController.create({
+      message: text,
+      color: color,
+      duration: duration,
+    });
+    toast.present();
+  }
+
+
 
 }

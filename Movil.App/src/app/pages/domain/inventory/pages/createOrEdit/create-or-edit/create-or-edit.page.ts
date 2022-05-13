@@ -52,8 +52,8 @@ export class CreateOrEditPage implements OnInit {
   }
 
 
-  closeModal() {
-    this.modalController.dismiss();
+  closeModal(value: boolean) {
+    this.modalController.dismiss(value);
   }
 
   createOrEdit(form: any) {
@@ -83,7 +83,7 @@ export class CreateOrEditPage implements OnInit {
 
           if (response.Code === responseCode.ok) {
             this.showMessage(response.Message, 'success', 2000);
-            this.modalController.dismiss();
+            this.modalController.dismiss(true);
           } else {
             this.showMessage(response.Message, 'danger', 4000);
           }
@@ -120,7 +120,7 @@ export class CreateOrEditPage implements OnInit {
       this.inventoryService.create(data).subscribe((response: Iresponse) => {
         if (response.Code === responseCode.ok) {
           this.showMessage(response.Message, 'success', 2000);
-          this.modalController.dismiss();
+          this.modalController.dismiss(true);
         } else {
           this.showMessage(response.Message, 'danger', 4000);
         }
