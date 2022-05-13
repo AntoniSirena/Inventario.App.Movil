@@ -36,7 +36,12 @@ const routes: Routes = [
     path: 'inventory',
     canActivate: [AuthGuard],
     loadChildren: () => import('./pages/domain/inventory/inventory/inventory.module').then( m => m.InventoryPageModule)
+  },
+  {
+    path: 'create-or-edit',
+    loadChildren: () => import('./pages/domain/inventory/pages/createOrEdit/create-or-edit/create-or-edit.module').then( m => m.CreateOrEditPageModule)
   }
+
 
 
 
