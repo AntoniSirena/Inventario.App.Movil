@@ -1,0 +1,39 @@
+<ion-header>
+
+  <ion-toolbar>
+    <ion-title style="font-weight: bold;">Items encontrados: {{products.length}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button color="danger" style="font-weight: bold;" (click)="closeModal(false)">Cerrar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content>
+
+  <ion-card>
+
+    <ion-card-content>
+
+      <ion-list style="margin-left: 10; margin-right: 10px;" *ngFor="let item of products">
+
+        <ion-item>
+          <ion-label>
+            <h2 style="font-weight: bold; color: red;">{{item.Description}}</h2>
+            <h2> <span class="item">Código: </span> {{item.ExternalCode}}</h2>
+            <h2> <span class="item">Barra: </span> {{item.BarCode}}</h2>
+            <h2> <span class="item">Costo actual: </span> {{item.Cost}}</h2>
+            <h2> <span class="item">Precio actual: </span> {{item.Price}}</h2>
+
+            <span> <ion-button color="primary" size="small" (click)="selectItem(item)">Seleccionar</ion-button> </span> &nbsp;
+    
+          </ion-label>
+        </ion-item>
+    
+      </ion-list>
+
+    </ion-card-content>
+
+  </ion-card>
+
+</ion-content>

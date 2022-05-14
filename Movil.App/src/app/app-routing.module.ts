@@ -47,6 +47,10 @@ const routes: Routes = [
   {
     path: 'counting',
     loadChildren: () => import('./pages/domain/inventory/pages/counting/counting/counting.module').then( m => m.CountingPageModule)
+  },
+  {
+    path: 'select-items',
+    loadChildren: () => import('./pages/domain/inventory/pages/selectItems/select-items/select-items.module').then( m => m.SelectItemsPageModule)
   }
 
 

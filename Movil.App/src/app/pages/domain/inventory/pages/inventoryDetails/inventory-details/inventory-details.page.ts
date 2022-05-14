@@ -7,6 +7,7 @@ import { Inventory } from 'src/app/models/inventory';
 import { Iresponse } from 'src/app/interfaces/Iresponse';
 import { CountingPage } from '../../counting/counting/counting.page';
 import { responseCode } from 'src/app/configurations/responseCode';
+import { SelectItemsPage } from '../../selectItems/select-items/select-items.page';
 
 @Component({
   selector: 'app-inventory-details',
@@ -68,6 +69,16 @@ export class InventoryDetailsPage implements OnInit {
     await modal.present();
   }
 
+ 
+  async openModalSelectItems(data?: any) {
+    const modal = await this.modalController.create({
+      component: SelectItemsPage,
+      componentProps: { data: data, currentInventory: this.inventory },
+    });
+    
+    await modal.present();
+  }
+
 
   searchItems(param: string) {
 
@@ -82,7 +93,9 @@ export class InventoryDetailsPage implements OnInit {
           this.items[0].InventoryId = this.inventory.Id
           this.openModalCountingInventory(this.items[0]);
 
-        } else {
+        } else { 
+
+          this.openModalSelectItems(this.items);
 
         }
 
