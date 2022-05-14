@@ -1,16 +1,21 @@
 <ion-header>
+
   <ion-toolbar>
     <ion-title style="font-weight: bold;">Conteo físico de items</ion-title>
-
     <ion-buttons slot="end">
       <ion-button color="danger" style="font-weight: bold;" (click)="closeModal(false)">Cerrar</ion-button>
     </ion-buttons>
-
   </ion-toolbar>
+
+  <ion-toolbar style="margin-bottom: 7px;">
+    <ion-searchbar [(ngModel)]="itemParam" placeholder="Ingrese el parámetro de busqueda" (keydown.enter)="searchItems(itemParam)"></ion-searchbar>
+  </ion-toolbar>
+
 </ion-header>
 
 <ion-content>
 
+  <br>
   <ion-card>
 
     <ion-card-content>
@@ -44,7 +49,7 @@
             <h2> <span class="item">Usuario: </span> {{item.UserName}}</h2>
     
             <span> <ion-button color="primary" size="small" (click)="openModalCountingInventory(item)">Editar</ion-button> </span> &nbsp;
-            <span> <ion-button color="danger" size="small">Eliminar</ion-button> </span>
+            <span> <ion-button color="danger" size="small" (click)="deleteItemAlert(item.InventoryDetailId)">Eliminar</ion-button> </span>
     
           </ion-label>
         </ion-item>

@@ -33,11 +33,13 @@ export class CountingPage implements OnInit {
 
 
   ngOnInit() {
-    this.product = this.navParams.get('data');
     this.getSection();
     this.getTariff();
+    this.product = this.navParams.get('data');
+    console.log(this.product);
     this.initCountingFrom();
   }
+
 
   closeModal(value: boolean) {
     this.modalController.dismiss(value);
@@ -125,6 +127,7 @@ export class CountingPage implements OnInit {
       tariffId: [this.product.TariffId],
     });
   }
+  
 
 
 }
