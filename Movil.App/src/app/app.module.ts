@@ -6,6 +6,8 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
+import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
+
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -26,6 +28,7 @@ import { HttpInterceptorService } from './services/httpInterceptor/http-intercep
 
   ],
   providers: [
+    BarcodeScanner,
     {
       provide: RouteReuseStrategy, 
       useClass: IonicRouteStrategy 

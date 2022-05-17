@@ -9,6 +9,9 @@ import { CountingPage } from '../../counting/counting/counting.page';
 import { responseCode } from 'src/app/configurations/responseCode';
 import { SelectItemsPage } from '../../selectItems/select-items/select-items.page';
 
+import { BarcodeScanner, BarcodeScannerOptions } from '@ionic-native/barcode-scanner/ngx';
+
+
 @Component({
   selector: 'app-inventory-details',
   templateUrl: './inventory-details.page.html',
@@ -24,6 +27,8 @@ export class InventoryDetailsPage implements OnInit {
 
   itemParam: string;
 
+  scannedData: any;
+
   constructor(
     private modalController: ModalController,
     private navParams: NavParams,
@@ -31,12 +36,37 @@ export class InventoryDetailsPage implements OnInit {
     private inventoryService: InventoryService,
     private toastController: ToastController,
     private alertController: AlertController,
+    private barcodeScanner: BarcodeScanner,
   ) { }
 
   ngOnInit() {
     this.inventory = this.navParams.get('data');
     this.getInventoryDetails(this.inventory.Id);
   }
+
+
+  scanQR() {
+    const options: BarcodeScannerOptions = {
+      preferFrontCamera: false,
+      showFlipCameraButton: true,
+      showTorchButton: true,
+      torchOn: false,
+      prompt: 'Place a barcode inside the scan area',
+      resultDisplayDuration: 500,
+      formats: 'EAN_13,EAN_8,QR_CODE,PDF_417 ',
+      orientation: 'portrait',
+    };
+
+    this.barcodeScanner.scan(options).then(barcodeData => {
+      console.log('Barcode data', barcodeData);
+      this.scannedData = barcodeData;
+
+    }).catch(err => {
+      console.log('Error', err);
+    });
+
+  }
+
 
 
   closeModal(value: boolean) {
@@ -61,7 +91,7 @@ export class InventoryDetailsPage implements OnInit {
     });
 
     modal.onDidDismiss().then((param) => {
-      if(param.data){
+      if (param.data) {
         this.getInventoryDetails(param.data);
       }
     });
@@ -69,13 +99,13 @@ export class InventoryDetailsPage implements OnInit {
     await modal.present();
   }
 
- 
+
   async openModalSelectItems(data?: any) {
     const modal = await this.modalController.create({
       component: SelectItemsPage,
       componentProps: { data: data, currentInventory: this.inventory },
     });
-    
+
     await modal.present();
   }
 
@@ -93,7 +123,7 @@ export class InventoryDetailsPage implements OnInit {
           this.items[0].InventoryId = this.inventory.Id
           this.openModalCountingInventory(this.items[0]);
 
-        } else { 
+        } else {
 
           this.openModalSelectItems(this.items);
 
