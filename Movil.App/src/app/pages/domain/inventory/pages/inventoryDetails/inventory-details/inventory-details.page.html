@@ -8,27 +8,23 @@
   </ion-toolbar>
 
   <ion-toolbar style="margin-bottom: 7px;">
-    <ion-searchbar #searchParam [(ngModel)]="itemParam" placeholder="Ingrese el parámetro de busqueda" (keydown.enter)="searchItems(itemParam)"></ion-searchbar>
+    <ion-searchbar #searchbar [(ngModel)]="itemParam" placeholder="Ingrese el parámetro de busqueda" (keydown.enter)="searchItems(itemParam)"></ion-searchbar>
   </ion-toolbar>
 
 </ion-header>
 
 <ion-content>
 
-  <br>
-  <ion-card>
+  <ion-card style="margin-top: 20px;">
 
     <ion-card-content>
-
-      <span style="font-weight: bold; font-size: 18px; color: black;">Total de items : {{inventoryDetailsPaginated?.Pagination?.TotalRecord}}  
-      <ion-button color="primary" size="small" expand="block" (click)="getInventoryDetails_Paginated(inventoryDetailsPaginated.Records[0].InventoryId, 'neext', true)">Refrescar items</ion-button>
-      </span>
-
+      <span style="font-weight: bold; font-size: 18px; color: black;">Total de items : {{inventoryDetailsPaginated?.Pagination?.TotalRecord}}</span>
     </ion-card-content>
 
   </ion-card>
 
-  <ion-card>
+
+  <ion-card style="margin-top: 20px;">
 
     <ion-card-content>
 
@@ -56,9 +52,15 @@
     
       </ion-list>
 
-      <ion-button style="margin-top: 10px;" expand="block" color="success" size="small" (click)="getInventoryDetails_Paginated(inventoryDetailsPaginated.Records[0].InventoryId, 'next')">Siguiente pagina</ion-button>
+      <p style="color: red; font-size: 18px; font-weight: bold; text-align: center; margin-top: 10px;">{{currentPageNumber}} paginas de {{inventoryDetailsPaginated?.Pagination?.TotalPage}}</p>
+
+      <ion-button
+       *ngIf="currentPageNumber < inventoryDetailsPaginated?.Pagination?.TotalPage"
+       style="margin-top: 10px;" expand="block" color="success" size="small" (click)="getInventoryDetails_Paginated(inventoryDetailsPaginated.Records[0].InventoryId, 'next')">Siguiente pagina</ion-button>
       
-      <ion-button style="margin-top: 10px;" expand="block" color="primary" size="small" (click)="getInventoryDetails_Paginated(inventoryDetailsPaginated.Records[0].InventoryId, 'back')">Pagina anterior </ion-button>
+      <ion-button
+       *ngIf="currentPageNumber > 1"
+       style="margin-top: 10px;" expand="block" color="primary" size="small" (click)="getInventoryDetails_Paginated(inventoryDetailsPaginated.Records[0].InventoryId, 'back')">Pagina anterior </ion-button>
 
     </ion-card-content>
 

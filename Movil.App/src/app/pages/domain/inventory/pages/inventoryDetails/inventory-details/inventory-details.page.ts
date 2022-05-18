@@ -17,7 +17,7 @@ import { PaginationObject } from './../../../../../../models/common/PaginationOb
 })
 export class InventoryDetailsPage implements OnInit {
 
-  @ViewChild(IonSearchbar) searchParam: IonSearchbar;
+  @ViewChild('searchbar') searchbar: IonSearchbar;
 
   inventoryDetails = new Array<Product>();
   inventoryDetailsPaginated = new PaginationObject();
@@ -26,8 +26,10 @@ export class InventoryDetailsPage implements OnInit {
   inventory = new Inventory();
 
   itemParam: string;
+  currentPageNumberRequest: number;
   currentPageNumber: number;
 
+  nextPage: number;
 
   constructor(
     private modalController: ModalController,
@@ -38,18 +40,34 @@ export class InventoryDetailsPage implements OnInit {
     private alertController: AlertController,
   ) { }
 
-  ngOnInit() {
-    this.currentPageNumber = 1;
 
+  ngOnInit() {
+    this.currentPageNumberRequest = 1;
+    this.nextPage = 1;
     this.inventory = this.navParams.get('data');
-    this.getInventoryDetails_Paginated(this.inventory.Id, 'neext');
+    this.getInventoryDetails_Paginated(this.inventory.Id, 'next');
   }
 
 
   ionViewWillEnter() {
-    this.searchParam.setFocus(); 
+    this.setFocus_Searchbar();
   }
 
+
+  setFocus_Searchbar(){
+    setTimeout(() => {
+      this.searchbar.setFocus(); 
+    }, 1500);
+  }
+
+
+  generateNextPage(orign: string): number{
+    if(orign == 'next'){
+      this.nextPage += 1;
+    }
+
+    return this.nextPage;
+  }
 
 
 
@@ -58,45 +76,36 @@ export class InventoryDetailsPage implements OnInit {
   }
 
 
-  getInventoryDetails(inventoryId: number) {
-    this.inventoryService.getInventoryDetails(inventoryId).subscribe((response: Iresponse) => {
-      this.inventoryDetails = response.Data;
-    },
-      error => {
-        console.log(JSON.stringify(error));
-      });
-  }
+  getInventoryDetails_Paginated(inventoryId: number, origin: string) {
 
+    //Geration of pages
+    if(origin == 'next'){
+      this.nextPage = this.generateNextPage(origin);
+      this.currentPageNumberRequest = this.nextPage - 1;
+    }
 
-  getInventoryDetails_Paginated(inventoryId: number, origin: string, refresh: boolean = false) {
-
-    if (origin === 'back') {
-      if (this.currentPageNumber > 1) {
+    if(origin == 'back'){
+      if(this.currentPageNumber > 1){
+        this.currentPageNumberRequest = this.currentPageNumber - 1;
         this.currentPageNumber -= 1;
+        this.nextPage -= 1;
       }
     }
 
-    if (refresh) {
-      this.currentPageNumber = 1;
-    }
+    this.inventoryService.getInventoryDetails_Paginated(inventoryId, this.currentPageNumberRequest).subscribe((response: Iresponse) => {
 
-    this.inventoryService.getInventoryDetails_Paginated(inventoryId, this.currentPageNumber).subscribe((response: Iresponse) => {
-
-      if (this.currentPageNumber === 1) {
+      if (this.currentPageNumberRequest === 1) {
         this.inventoryDetailsPaginated = response.Data;
-
-        if (response.Data.Records.length === this.inventoryDetailsPaginated.Pagination.PageRow) {
-          this.currentPageNumber += 1;
-        }
 
       } else {
         this.inventoryDetailsPaginated.Records = response.Data;
-
-        if (response.Data.length === this.inventoryDetailsPaginated.Pagination.PageRow) {
-          this.currentPageNumber += 1;
-        }
       }
 
+      if(origin == 'next'){
+        this.currentPageNumberRequest = this.nextPage
+        this.currentPageNumber = this.currentPageNumberRequest - 1;
+      }
+      
     },
       error => {
         console.log(JSON.stringify(error));
@@ -111,7 +120,8 @@ export class InventoryDetailsPage implements OnInit {
 
     modal.onDidDismiss().then((param) => {
       if (param.data) {
-        this.getInventoryDetails(param.data);
+        this.setFocus_Searchbar();
+        this.getInventoryDetails_Paginated(this.inventory.Id, 'next');
       }
     });
 
@@ -188,8 +198,8 @@ export class InventoryDetailsPage implements OnInit {
   deleteItems(id: number) {
     this.inventoryService.deleteInventoryDetail(id).subscribe((response: Iresponse) => {
       if (response.Code === responseCode.ok) {
-        this.showMessage(response.Message, 'success', 2000);
-        this.getInventoryDetails(this.inventory.Id)
+        this.showMessage(response.Message, 'success', 1000);
+        this.getInventoryDetails_Paginated(this.inventory.Id, 'next');
       } else {
         this.showMessage(response.Message, 'danger', 4000);
       }

@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ModalController, NavParams, ToastController } from '@ionic/angular';
+import { IonSearchbar, ModalController, NavParams, ToastController } from '@ionic/angular';
 import { Iresponse } from 'src/app/interfaces/Iresponse';
 import { Section, Tariff } from 'src/app/models/inventory';
 import { Product } from 'src/app/models/product';
@@ -14,6 +14,7 @@ import { responseCode } from './../../../../../../configurations/responseCode';
 })
 export class CountingPage implements OnInit {
 
+  @ViewChild('quantityInput') quantityInput: IonSearchbar;
 
   countingForm: FormGroup;
 
@@ -36,10 +37,16 @@ export class CountingPage implements OnInit {
     this.getSection();
     this.getTariff();
     this.product = this.navParams.get('data');
-    console.log(this.product);
     this.initCountingFrom();
+    this.setFocus_QuantityInput();
   }
 
+
+  setFocus_QuantityInput(){
+    setTimeout(() => {
+      this.quantityInput.setFocus(); 
+    }, 500);
+  }
 
   closeModal(value: boolean) {
     this.modalController.dismiss(value);
@@ -94,7 +101,7 @@ export class CountingPage implements OnInit {
 
     this.inventoryService.saveItem(data).subscribe((response: Iresponse) => {
       if (response.Code === responseCode.ok) {
-        this.showMessage(response.Message, 'success', 2000);
+        this.showMessage(response.Message, 'success', 1000);
         this.modalController.dismiss(data.InventoryId);
       } else {
         this.showMessage(response.Message, 'danger', 4000);
@@ -122,7 +129,7 @@ export class CountingPage implements OnInit {
     this.countingForm = this.form.group({
       cost: [this.product.Cost],
       price: [this.product.Price],
-      quantity: [0, Validators.required],
+      quantity: ['', Validators.required],
       sectionId: [this.product.SectionId],
       tariffId: [this.product.TariffId],
     });

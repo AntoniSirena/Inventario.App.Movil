@@ -14,7 +14,6 @@ import { Inventory, InventoryModel } from 'src/app/models/inventory';
 })
 export class CreateOrEditPage implements OnInit {
 
-
   createOrEditForm: FormGroup;
 
   titleHeader: string;
@@ -33,6 +32,7 @@ export class CreateOrEditPage implements OnInit {
 
 
   ngOnInit() {
+
     this.initCreateOrEditFrom();
 
     this.currentInventory = this.navParams.get('data');
