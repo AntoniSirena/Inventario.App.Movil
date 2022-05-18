@@ -76,19 +76,27 @@ export class InventoryDetailsPage implements OnInit {
   }
 
 
-  getInventoryDetails_Paginated(inventoryId: number, origin: string) {
+  getInventoryDetails_Paginated(inventoryId: number, origin: string, refresh: boolean = false) {
 
     //Geration of pages
-    if(origin == 'next'){
-      this.nextPage = this.generateNextPage(origin);
-      this.currentPageNumberRequest = this.nextPage - 1;
+    if(!refresh){
+      if(origin == 'next'){
+        this.nextPage = this.generateNextPage(origin);
+        this.currentPageNumberRequest = this.nextPage - 1;
+      }
+  
+      if(origin == 'back'){
+        if(this.currentPageNumber > 1){
+          this.currentPageNumberRequest = this.currentPageNumber - 1;
+          this.currentPageNumber -= 1;
+          this.nextPage -= 1;
+        }
+      }
     }
 
-    if(origin == 'back'){
-      if(this.currentPageNumber > 1){
-        this.currentPageNumberRequest = this.currentPageNumber - 1;
-        this.currentPageNumber -= 1;
-        this.nextPage -= 1;
+    if(refresh){
+      if(this.currentPageNumberRequest > this.inventoryDetailsPaginated.Pagination.TotalPage){
+        this.currentPageNumberRequest -= 1;
       }
     }
 
@@ -100,10 +108,11 @@ export class InventoryDetailsPage implements OnInit {
       } else {
         this.inventoryDetailsPaginated.Records = response.Data;
       }
-
-      if(origin == 'next'){
-        this.currentPageNumberRequest = this.nextPage
-        this.currentPageNumber = this.currentPageNumberRequest - 1;
+      if(!refresh){
+        if(origin == 'next'){
+          this.currentPageNumberRequest = this.nextPage
+          this.currentPageNumber = this.currentPageNumberRequest - 1;
+        }
       }
       
     },
@@ -121,7 +130,7 @@ export class InventoryDetailsPage implements OnInit {
     modal.onDidDismiss().then((param) => {
       if (param.data) {
         this.setFocus_Searchbar();
-        this.getInventoryDetails_Paginated(this.inventory.Id, 'next');
+        this.getInventoryDetails_Paginated(this.inventory.Id, 'next', true);
       }
     });
 
