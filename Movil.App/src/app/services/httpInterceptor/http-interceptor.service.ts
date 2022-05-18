@@ -14,6 +14,7 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { NetworkConnectionService } from '../networkConnection/network-connection.service';
 import { ProfileService } from '../profile/profile.service';
+import { RedirectService } from '../redirect/redirect.service';
 
 
 @Injectable({
@@ -27,6 +28,7 @@ export class HttpInterceptorService implements HttpInterceptor{
   constructor(
     private networkConnectionService: NetworkConnectionService,
     private profileService: ProfileService,
+    private redirectService: RedirectService,
   ) {
     this.coreURL = environment.coreURL;
   }
@@ -58,6 +60,22 @@ export class HttpInterceptorService implements HttpInterceptor{
         }
       }, (error: any) => {
         if (error instanceof HttpErrorResponse) {
+
+          if (error.status === 301 || error.status === 302 || error.status === 303) {
+            location.href = error.error;
+          }
+          if (error.status === 400) {
+            this.redirectService.error400(error.error.Message);
+          }
+          if (error.status === 401) {
+            this.redirectService.refreshToken();
+          }
+          if (error.status === 404) {
+            this.redirectService.error404(error.error.Message);
+          }
+          if (error.status === 500) {
+            this.redirectService.error500();
+          }
 
         }
       })
