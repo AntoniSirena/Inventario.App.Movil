@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { ModalController, NavParams, ToastController, AlertController } from '@ionic/angular';
+import { ModalController, NavParams, ToastController, AlertController, IonSearchbar } from '@ionic/angular';
 import { Product } from 'src/app/models/product';
 import { InventoryService } from 'src/app/services/domain/inventory/inventory.service';
 import { Inventory } from 'src/app/models/inventory';
@@ -8,6 +8,7 @@ import { Iresponse } from 'src/app/interfaces/Iresponse';
 import { CountingPage } from '../../counting/counting/counting.page';
 import { responseCode } from 'src/app/configurations/responseCode';
 import { SelectItemsPage } from '../../selectItems/select-items/select-items.page';
+import { PaginationObject } from './../../../../../../models/common/PaginationObject';
 
 @Component({
   selector: 'app-inventory-details',
@@ -16,13 +17,17 @@ import { SelectItemsPage } from '../../selectItems/select-items/select-items.pag
 })
 export class InventoryDetailsPage implements OnInit {
 
+  @ViewChild(IonSearchbar) searchParam: IonSearchbar;
 
   inventoryDetails = new Array<Product>();
+  inventoryDetailsPaginated = new PaginationObject();
   items = new Array<Product>();
 
   inventory = new Inventory();
 
   itemParam: string;
+  currentPageNumber: number;
+
 
   constructor(
     private modalController: ModalController,
@@ -34,9 +39,18 @@ export class InventoryDetailsPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.currentPageNumber = 1;
+
     this.inventory = this.navParams.get('data');
-    this.getInventoryDetails(this.inventory.Id);
+    this.getInventoryDetails_Paginated(this.inventory.Id, 'neext');
   }
+
+
+  ionViewWillEnter() {
+    this.searchParam.setFocus(); 
+  }
+
+
 
 
   closeModal(value: boolean) {
@@ -44,8 +58,8 @@ export class InventoryDetailsPage implements OnInit {
   }
 
 
-  getInventoryDetails(id: number) {
-    this.inventoryService.getInventoryDetails(id).subscribe((response: Iresponse) => {
+  getInventoryDetails(inventoryId: number) {
+    this.inventoryService.getInventoryDetails(inventoryId).subscribe((response: Iresponse) => {
       this.inventoryDetails = response.Data;
     },
       error => {
@@ -54,6 +68,41 @@ export class InventoryDetailsPage implements OnInit {
   }
 
 
+  getInventoryDetails_Paginated(inventoryId: number, origin: string, refresh: boolean = false) {
+
+    if (origin === 'back') {
+      if (this.currentPageNumber > 1) {
+        this.currentPageNumber -= 1;
+      }
+    }
+
+    if (refresh) {
+      this.currentPageNumber = 1;
+    }
+
+    this.inventoryService.getInventoryDetails_Paginated(inventoryId, this.currentPageNumber).subscribe((response: Iresponse) => {
+
+      if (this.currentPageNumber === 1) {
+        this.inventoryDetailsPaginated = response.Data;
+
+        if (response.Data.Records.length === this.inventoryDetailsPaginated.Pagination.PageRow) {
+          this.currentPageNumber += 1;
+        }
+
+      } else {
+        this.inventoryDetailsPaginated.Records = response.Data;
+
+        if (response.Data.length === this.inventoryDetailsPaginated.Pagination.PageRow) {
+          this.currentPageNumber += 1;
+        }
+      }
+
+    },
+      error => {
+        console.log(JSON.stringify(error));
+      });
+  }
+
   async openModalCountingInventory(data?: any) {
     const modal = await this.modalController.create({
       component: CountingPage,
@@ -61,7 +110,7 @@ export class InventoryDetailsPage implements OnInit {
     });
 
     modal.onDidDismiss().then((param) => {
-      if(param.data){
+      if (param.data) {
         this.getInventoryDetails(param.data);
       }
     });
@@ -69,13 +118,13 @@ export class InventoryDetailsPage implements OnInit {
     await modal.present();
   }
 
- 
+
   async openModalSelectItems(data?: any) {
     const modal = await this.modalController.create({
       component: SelectItemsPage,
       componentProps: { data: data, currentInventory: this.inventory },
     });
-    
+
     await modal.present();
   }
 
@@ -93,7 +142,7 @@ export class InventoryDetailsPage implements OnInit {
           this.items[0].InventoryId = this.inventory.Id
           this.openModalCountingInventory(this.items[0]);
 
-        } else { 
+        } else {
 
           this.openModalSelectItems(this.items);
 

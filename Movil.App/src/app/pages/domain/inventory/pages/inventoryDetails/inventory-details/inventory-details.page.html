@@ -8,7 +8,7 @@
   </ion-toolbar>
 
   <ion-toolbar style="margin-bottom: 7px;">
-    <ion-searchbar [(ngModel)]="itemParam" placeholder="Ingrese el parámetro de busqueda" (keydown.enter)="searchItems(itemParam)"></ion-searchbar>
+    <ion-searchbar #searchParam [(ngModel)]="itemParam" placeholder="Ingrese el parámetro de busqueda" (keydown.enter)="searchItems(itemParam)"></ion-searchbar>
   </ion-toolbar>
 
 </ion-header>
@@ -20,8 +20,8 @@
 
     <ion-card-content>
 
-      <span style="font-weight: bold; font-size: 18px; color: black;">Total de items : {{inventoryDetails.length}}  
-      <ion-button color="primary" size="small" expand="block" (click)="getInventoryDetails(inventoryDetails[0].InventoryId)">Refrescar items</ion-button>
+      <span style="font-weight: bold; font-size: 18px; color: black;">Total de items : {{inventoryDetailsPaginated?.Pagination?.TotalRecord}}  
+      <ion-button color="primary" size="small" expand="block" (click)="getInventoryDetails_Paginated(inventoryDetailsPaginated.Records[0].InventoryId, 'neext', true)">Refrescar items</ion-button>
       </span>
 
     </ion-card-content>
@@ -32,7 +32,7 @@
 
     <ion-card-content>
 
-      <ion-list style="margin-left: 10; margin-right: 10px;" *ngFor="let item of inventoryDetails">
+      <ion-list style="margin-left: 10; margin-right: 10px;" *ngFor="let item of inventoryDetailsPaginated.Records">
 
         <ion-item>
           <ion-label>
@@ -55,6 +55,10 @@
         </ion-item>
     
       </ion-list>
+
+      <ion-button style="margin-top: 10px;" expand="block" color="success" size="small" (click)="getInventoryDetails_Paginated(inventoryDetailsPaginated.Records[0].InventoryId, 'next')">Siguiente pagina</ion-button>
+      
+      <ion-button style="margin-top: 10px;" expand="block" color="primary" size="small" (click)="getInventoryDetails_Paginated(inventoryDetailsPaginated.Records[0].InventoryId, 'back')">Pagina anterior </ion-button>
 
     </ion-card-content>
 
