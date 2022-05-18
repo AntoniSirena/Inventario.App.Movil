@@ -36,7 +36,9 @@ export class RedirectService {
         localStorage.setItem('refreshToken', JSON.stringify(response.Data.refreshToken));
       } else {
         this.showMessage(response.Message, 'danger', 2000);
-        this.router.navigate(['login']);
+        this.router.navigate(['login']).then(() => {
+          location.reload();
+        });
       }
 
     },
