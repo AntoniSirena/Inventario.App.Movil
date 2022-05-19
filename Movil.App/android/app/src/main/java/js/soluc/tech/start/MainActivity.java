@@ -1,4 +1,4 @@
-package io.ionic.starter;
+package js.soluc.tech.start;
 
 import com.getcapacitor.BridgeActivity;
 
