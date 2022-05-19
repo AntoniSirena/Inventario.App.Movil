@@ -1,8 +1,8 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
-  appName: 'Fast-Inv',
+  appId: 'js.soluc.tech.start',
+  appName: 'Fast-Invent',
   webDir: 'www',
   bundledWebRuntime: false
 };
