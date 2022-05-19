@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="ic_launcher_background">#FFFFFF</color>
+<<<<<<< HEAD
+    <color name="ic_launcher_background">#4490DC</color>
+=======
+    <color name="ic_launcher_background">#3AB3DC</color>
+>>>>>>> android_Build
 </resources>

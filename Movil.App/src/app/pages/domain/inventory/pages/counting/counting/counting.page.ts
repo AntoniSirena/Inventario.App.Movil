@@ -38,14 +38,13 @@ export class CountingPage implements OnInit {
     this.getTariff();
     this.product = this.navParams.get('data');
     this.initCountingFrom();
-    this.setFocus_QuantityInput();
   }
 
 
   setFocus_QuantityInput(){
     setTimeout(() => {
       this.quantityInput.setFocus(); 
-    }, 500);
+    }, 1000);
   }
 
   closeModal(value: boolean) {
@@ -65,6 +64,7 @@ export class CountingPage implements OnInit {
   getTariff() {
     this.inventoryService.getTariff().subscribe((response: Array<Tariff>) => {
       this.tariffs = response;
+      this.setFocus_QuantityInput();
     },
       error => {
         console.log(JSON.stringify(error));
