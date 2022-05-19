@@ -95,7 +95,7 @@ export class InventoryDetailsPage implements OnInit {
     }
 
     if(refresh){
-      if(this.currentPageNumberRequest > this.inventoryDetailsPaginated.Pagination.TotalPage){
+      if(this.currentPageNumberRequest > this.currentPageNumber){
         this.currentPageNumberRequest -= 1;
       }
     }
@@ -162,7 +162,6 @@ export class InventoryDetailsPage implements OnInit {
           this.openModalCountingInventory(this.items[0]);
 
         } else {
-
           this.openModalSelectItems(this.items);
 
         }

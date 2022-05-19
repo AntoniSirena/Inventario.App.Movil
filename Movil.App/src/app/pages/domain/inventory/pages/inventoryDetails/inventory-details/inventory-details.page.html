@@ -19,6 +19,7 @@
 
     <ion-card-content>
       <span style="font-weight: bold; font-size: 18px; color: black;">Total de items : {{inventoryDetailsPaginated?.Pagination?.TotalRecord}}</span>
+      <ion-button id="btn_Refresh" style="margin-top: 5px;" expand="block" color="primary" size="small" (click)="getInventoryDetails_Paginated(inventoryDetailsPaginated.Records[0].InventoryId, 'next', true)">Refrescar</ion-button>
     </ion-card-content>
 
   </ion-card>
