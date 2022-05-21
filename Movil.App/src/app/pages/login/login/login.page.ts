@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ToastController } from '@ionic/angular';
+import { MenuController, ToastController } from '@ionic/angular';
 import { Ilogin } from 'src/app/interfaces/Ilogin';
 import { Iresponse } from 'src/app/interfaces/Iresponse';
 import { Profile } from 'src/app/models/profile';
@@ -25,11 +25,13 @@ export class LoginPage implements OnInit {
     private authorizationService: AuthorizationService,
     private localStorageService: LocalStorageService,
     private redirectService: RedirectService,
-    private toastController: ToastController
+    private toastController: ToastController,
+    public menuCtrl: MenuController,
   ) { }
 
 
   ngOnInit() {
+    this.menuCtrl.enable(false);
     this.initLoginform();
   }
 
@@ -48,6 +50,8 @@ export class LoginPage implements OnInit {
     this.authorizationService.authenticate(data).subscribe((response: Iresponse) => {
 
       if (response.Code == responseCode.ok) {
+        this.menuCtrl.enable(true);
+
         this.localStorageService.addSectionData(response.Data);
         this.redirectService.defaultPage();
       } else {
