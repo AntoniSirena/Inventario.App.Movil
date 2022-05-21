@@ -1,4 +1,4 @@
-package js.soluc.tech.start;
+package js.soluc.tech;
 
 import com.getcapacitor.BridgeActivity;
 
