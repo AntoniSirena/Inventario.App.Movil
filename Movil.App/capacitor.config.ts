@@ -1,7 +1,7 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'js.soluc.tech.start',
+  appId: 'Fast.Invent.1',
   appName: 'Fast-Invent',
   webDir: 'www',
   bundledWebRuntime: false

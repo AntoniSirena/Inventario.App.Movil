@@ -1,4 +1,4 @@
-package js.soluc.tech.start;
+package Fast.Invent.1;
 
 import com.getcapacitor.BridgeActivity;
 
