@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Fast-Invent</string>
-    <string name="title_activity_main">Fast-Invent</string>
-    <string name="package_name">Fast.Invent.1</string>
-    <string name="custom_url_scheme">Fast.Invent.1</string>
+    <string name="app_name">FastInvent</string>
+    <string name="title_activity_main">FastInvent</string>
+    <string name="package_name">JsFast.Inv.Start</string>
+    <string name="custom_url_scheme">JsFast.Inv.Start</string>
 </resources>
