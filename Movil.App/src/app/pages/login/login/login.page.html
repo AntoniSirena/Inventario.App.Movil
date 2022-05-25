@@ -1,42 +1,29 @@
 <ion-content>
 
-  <ion-card class="card">
+  <div style="text-align: center; margin-top: 20px; margin-bottom: 15px;">
+    <span style="font-weight: bold; font-size: 20px; color: white;">Fast Inventario</span>
+  </div>
 
-    <ion-card-header>
-      <ion-card-title style="text-align: center;"> <span style="color: red; font-weight: bold;">Fast </span>
-        <span style="color: blue; font-weight: bold;">Inventario</span> </ion-card-title>
-    </ion-card-header>
+  <div style="margin-left: 10px; margin-right: 10px;">
 
-    <ion-card-content>
+    <form [formGroup]="loginForm" (submit)="login(loginForm.value)">
 
-      <form [formGroup]="loginForm" (submit)="login(loginForm.value)">
+      <ion-item no-lines color="light" style="border-radius: 18px;">
+        <ion-label position="floating" style="font-weight: bold;">Usuario</ion-label>
+        <ion-input type="text" formControlName="userName"></ion-input>
+      </ion-item>
+  
+      <ion-item no-lines color="light" style="margin-top: 7px; margin-bottom: 8px; border-radius: 18px;">
+        <ion-label position="floating" style="font-weight: bold;">Contraseña</ion-label>
+        <ion-input type="password" formControlName="password"></ion-input>
+      </ion-item>
+  
+      <ion-button type="submit" expand="block" color="success" [disabled]="loginForm.invalid"
+        style="margin-top: 17px; font-weight: bold;">Iniciar sesión</ion-button>
+  
+    </form>
 
-        <ion-item no-lines color="light" style="border-radius: 18px;">
-          <ion-label position="floating" style="font-weight: bold;">Usuario</ion-label>
-          <ion-input type="text" formControlName="userName"></ion-input>
-        </ion-item>
-
-        <ion-item no-lines color="light" style="margin-top: 7px; margin-bottom: 8px; border-radius: 18px;">
-          <ion-label position="floating" style="font-weight: bold;">Contraseña</ion-label>
-          <ion-input type="password" formControlName="password"></ion-input>
-        </ion-item>
-
-        <ion-button type="submit" expand="block" color="primary" [disabled]="loginForm.invalid"
-          style="margin-top: 17px; font-weight: bold;">Iniciar sesión</ion-button>
-
-      </form>
-
-    </ion-card-content>
-
-  </ion-card>
-
-  <ion-card style="border-radius: 12px; margin-top: 30px;">
-
-    <ion-card-content>
-      <img src="../../assets/public/inv.jpg"/>
-    </ion-card-content>
-
-  </ion-card>
+  </div>
 
 </ion-content>
 

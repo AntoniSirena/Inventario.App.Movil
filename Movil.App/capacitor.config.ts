@@ -1,7 +1,7 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'JsFast.Inv.Start',
+  appId: 'JsFast01.Inv.Start',
   appName: 'FastInvent',
   webDir: 'www',
   bundledWebRuntime: false

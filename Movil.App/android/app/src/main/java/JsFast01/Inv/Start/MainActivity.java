@@ -1,4 +1,4 @@
-package JsFast.Inv.Start;
+package JsFast01.Inv.Start;
 
 import com.getcapacitor.BridgeActivity;
 
