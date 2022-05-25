@@ -5,6 +5,7 @@ import { Ilogin } from 'src/app/interfaces/Ilogin';
 import { Iresponse } from 'src/app/interfaces/Iresponse';
 import { AuthorizationService } from 'src/app/services/authorization/authorization.service';
 import { LocalStorageService } from 'src/app/services/localStorage/local-storage.service';
+import { NetworkConnectionService } from 'src/app/services/networkConnection/network-connection.service';
 import { RedirectService } from 'src/app/services/redirect/redirect.service';
 import { channel } from './../../../configurations/channel';
 import { responseCode } from './../../../configurations/responseCode';
@@ -27,6 +28,7 @@ export class LoginPage implements OnInit {
     private toastController: ToastController,
     public menuCtrl: MenuController,
     private loadingController: LoadingController,
+    private networkConnectionService: NetworkConnectionService,
   ) { }
 
 
@@ -47,7 +49,10 @@ export class LoginPage implements OnInit {
       Channel: channel.movil,
     };
 
+    this.networkConnectionService.getNetworkStatus();
+
     this.presentLoading();
+
     this.authorizationService.authenticate(data).subscribe((response: Iresponse) => {
 
       this.menuCtrl.enable(true);

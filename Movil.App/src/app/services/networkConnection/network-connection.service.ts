@@ -18,6 +18,7 @@ export class NetworkConnectionService {
     this._getNetworkStatus().then((status) => {
       if(!status.connected){
         this.showMessage();
+        return;
       }
     })
   }
