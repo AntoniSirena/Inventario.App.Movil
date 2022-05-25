@@ -14,7 +14,16 @@ export class NetworkConnectionService {
   ) { }
 
 
-  getNetworkStatus(){
+  getNetworkStatus(): boolean{
+    let result: boolean;
+    this._getNetworkStatus().then((status) => {
+      result = status.connected;
+    })
+    return result;
+  }
+
+
+  checkoutNetworkStatus(){
     this._getNetworkStatus().then((status) => {
       if(!status.connected){
         this.showMessage();

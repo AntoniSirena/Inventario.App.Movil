@@ -49,7 +49,10 @@ export class LoginPage implements OnInit {
       Channel: channel.movil,
     };
 
-    this.networkConnectionService.getNetworkStatus();
+    if(!this.networkConnectionService.getNetworkStatus()){
+      this.networkConnectionService.checkoutNetworkStatus();
+      return;
+    }
 
     this.presentLoading();
 

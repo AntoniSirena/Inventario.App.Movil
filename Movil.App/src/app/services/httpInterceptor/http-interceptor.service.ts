@@ -47,7 +47,7 @@ export class HttpInterceptorService implements HttpInterceptor{
       headers = headers.append('Authorization', `${this.token}`);
     }
 
-    this.networkConnectionService.getNetworkStatus();
+    this.networkConnectionService.checkoutNetworkStatus();
 
     const reqclone = req.clone({
       headers
