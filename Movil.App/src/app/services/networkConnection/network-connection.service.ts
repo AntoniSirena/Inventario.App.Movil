@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AlertController } from '@ionic/angular';
+import { AlertController, LoadingController } from '@ionic/angular';
 import { Network } from '@capacitor/network';
 
 
@@ -27,7 +27,7 @@ export class NetworkConnectionService {
   }
 
 
-  async showMessage() {
+  async showMessage() {    
     const alert = await this.alertController.create({
       header: 'Aviso',
       subHeader: '',

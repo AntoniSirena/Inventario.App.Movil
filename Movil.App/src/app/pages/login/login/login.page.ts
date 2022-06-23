@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ToastController } from '@ionic/angular';
+import { LoadingController, MenuController, ToastController } from '@ionic/angular';
 import { Ilogin } from 'src/app/interfaces/Ilogin';
 import { Iresponse } from 'src/app/interfaces/Iresponse';
-import { Profile } from 'src/app/models/profile';
 import { AuthorizationService } from 'src/app/services/authorization/authorization.service';
 import { LocalStorageService } from 'src/app/services/localStorage/local-storage.service';
 import { RedirectService } from 'src/app/services/redirect/redirect.service';
@@ -25,11 +24,14 @@ export class LoginPage implements OnInit {
     private authorizationService: AuthorizationService,
     private localStorageService: LocalStorageService,
     private redirectService: RedirectService,
-    private toastController: ToastController
+    private toastController: ToastController,
+    public menuCtrl: MenuController,
+    private loadingController: LoadingController,
   ) { }
 
 
   ngOnInit() {
+    this.menuCtrl.enable(false);
     this.initLoginform();
   }
 
@@ -45,7 +47,11 @@ export class LoginPage implements OnInit {
       Channel: channel.movil,
     };
 
+    this.presentLoading();
     this.authorizationService.authenticate(data).subscribe((response: Iresponse) => {
+
+      this.menuCtrl.enable(true);
+      this.loadingController.dismiss();
 
       if (response.Code == responseCode.ok) {
         this.localStorageService.addSectionData(response.Data);
@@ -56,6 +62,7 @@ export class LoginPage implements OnInit {
 
     },
       error => {
+        this.loadingController.dismiss();
         console.log(JSON.stringify(error));
       });
 
@@ -68,6 +75,15 @@ export class LoginPage implements OnInit {
       duration: 3000
     });
     toast.present();
+  }
+
+
+  async presentLoading() {
+    const loading = await this.loadingController.create({
+      spinner: "bubbles",
+      message: 'Cargando...',
+    });
+    await loading.present();
   }
 
 

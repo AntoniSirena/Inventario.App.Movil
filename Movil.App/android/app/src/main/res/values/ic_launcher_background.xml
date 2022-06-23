@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+<<<<<<< HEAD
     <color name="ic_launcher_background">#2F86DC</color>
+=======
+    <color name="ic_launcher_background">#3176DC</color>
+>>>>>>> dev
 </resources>

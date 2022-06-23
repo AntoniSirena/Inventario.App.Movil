@@ -1,7 +1,14 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
+<<<<<<< HEAD
     <string name="app_name">Fast-Invent</string>
     <string name="title_activity_main">Fast-Invent</string>
     <string name="package_name">js.soluc.tech</string>
     <string name="custom_url_scheme">js.soluc.tech</string>
+=======
+    <string name="app_name">FastInvent</string>
+    <string name="title_activity_main">FastInvent</string>
+    <string name="package_name">JsFast013.Inv.Start</string>
+    <string name="custom_url_scheme">JsFast013.Inv.Start</string>
+>>>>>>> dev
 </resources>

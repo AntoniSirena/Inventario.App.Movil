@@ -3,7 +3,11 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
+<<<<<<< HEAD
         applicationId "js.soluc.tech"
+=======
+        applicationId "JsFast013.Inv.Start"
+>>>>>>> dev
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

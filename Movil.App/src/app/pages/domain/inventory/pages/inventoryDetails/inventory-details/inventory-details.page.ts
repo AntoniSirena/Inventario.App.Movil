@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { ModalController, NavParams, ToastController, AlertController, IonSearchbar } from '@ionic/angular';
+import { ModalController, NavParams, ToastController, AlertController, IonSearchbar, LoadingController } from '@ionic/angular';
 import { Product } from 'src/app/models/product';
 import { InventoryService } from 'src/app/services/domain/inventory/inventory.service';
 import { Inventory } from 'src/app/models/inventory';
@@ -38,6 +38,8 @@ export class InventoryDetailsPage implements OnInit {
     private inventoryService: InventoryService,
     private toastController: ToastController,
     private alertController: AlertController,
+    private loadingController: LoadingController,
+
   ) { }
 
 
@@ -150,9 +152,12 @@ export class InventoryDetailsPage implements OnInit {
 
   searchItems(param: string) {
 
+    this.presentLoading();
+
     this.inventoryService.getItems(param).subscribe((response: Iresponse) => {
       this.items = response.Data;
       this.itemParam = '';
+      this.loadingController.dismiss();
 
       if (response.Code === '000') {
 
@@ -172,6 +177,7 @@ export class InventoryDetailsPage implements OnInit {
 
     },
       error => {
+        this.loadingController.dismiss();
         console.log(JSON.stringify(error));
       });
   }
@@ -226,6 +232,15 @@ export class InventoryDetailsPage implements OnInit {
       duration: duration,
     });
     toast.present();
+  }
+
+
+  async presentLoading() {
+    const loading = await this.loadingController.create({
+      spinner: "bubbles",
+      message: 'Cargando...',
+    });
+    await loading.present();
   }
 
 
