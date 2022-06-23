@@ -19,10 +19,42 @@
 
     <ion-card-content>
       <span style="font-weight: bold; font-size: 18px; color: black;">Total de items : {{inventoryDetailsPaginated?.Pagination?.TotalRecord}}</span>
-      <ion-button id="btn_Refresh" style="margin-top: 5px;" expand="block" color="primary" size="small" (click)="getInventoryDetails_Paginated(inventoryDetailsPaginated.Records[0].InventoryId, 'next', true)">Refrescar</ion-button>
+      <ion-button id="btn_Refresh" style="margin-top: 5px;" expand="block" color="primary" size="small" (click)="getInventoryDetails_Paginated('next', true)">Refrescar</ion-button>
     </ion-card-content>
 
   </ion-card>
+
+
+  <!--<ion-list style="margin-left: 10; margin-right: 10px;" *ngFor="let item of inventoryDetailsPaginated.Records">
+
+    <ion-item>
+      <ion-label>
+        <h2 style="font-weight: bold; color: red;">{{item.Description}}</h2>
+        <h2> <span class="item">Código: </span> {{item.ExternalCode}}</h2>
+        <h2> <span class="item">Barra: </span> {{item.BarCode}}</h2>
+        <h2> <span class="item">Costo anterior: </span> {{item.OldCost}}</h2>
+        <h2> <span class="item">Precio anterior: </span> {{item.OldPrice}}</h2>
+        <h2> <span class="item">Costo actual: </span> {{item.Cost}}</h2>
+        <h2> <span class="item">Precio actual: </span> {{item.Price}}</h2>
+        <h2> <span class="item">Tramo: </span> {{item.SectionDescription}}</h2>
+        <h2> <span class="item">Bandeja: </span> {{item.TariffDescription}}</h2>
+        <h2> <span class="item">Cantidad: </span> <span style="color: red; font-weight: bold;">{{item.Quantity}}</span> </h2>
+        <h2> <span class="item">Usuario: </span> {{item.UserName}}</h2>
+
+        <span> <ion-button color="primary" size="small" (click)="openModalCountingInventory(item)">Editar</ion-button> </span> &nbsp;
+        <span> <ion-button color="danger" size="small" (click)="deleteItemAlert(item.InventoryDetailId)">Eliminar</ion-button> </span>
+
+      </ion-label>
+    </ion-item>
+
+  </ion-list>
+
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Cargando...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll> -->
 
 
   <ion-card style="margin-top: 20px;">
@@ -57,11 +89,11 @@
 
       <ion-button
        *ngIf="currentPageNumber < inventoryDetailsPaginated?.Pagination?.TotalPage"
-       style="margin-top: 10px;" expand="block" color="success" size="small" (click)="getInventoryDetails_Paginated(inventoryDetailsPaginated.Records[0].InventoryId, 'next')">Siguiente pagina</ion-button>
+       style="margin-top: 10px;" expand="block" color="success" size="small" (click)="getInventoryDetails_Paginated('next')">Siguiente pagina</ion-button>
       
       <ion-button
        *ngIf="currentPageNumber > 1"
-       style="margin-top: 10px;" expand="block" color="primary" size="small" (click)="getInventoryDetails_Paginated(inventoryDetailsPaginated.Records[0].InventoryId, 'back')">Pagina anterior </ion-button>
+       style="margin-top: 10px;" expand="block" color="primary" size="small" (click)="getInventoryDetails_Paginated('back')">Pagina anterior </ion-button>
 
     </ion-card-content>
 
