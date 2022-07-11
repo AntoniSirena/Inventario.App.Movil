@@ -46,6 +46,10 @@ export class InventoryService {
     return this.httpClient.get(this.coreURL + `api/inventory/GetInventoryDetails_Paginated?inventoryId=${inventoryId}&pageNumber=${pageNumber}`);
   }
 
+  getInventoryDetails_Paginated_Refresh(inventoryId: number, pageNumber: number = 1, refresh: boolean, refreshPageRow: number): Observable<object> {
+    return this.httpClient.get(this.coreURL + `api/inventory/GetInventoryDetails_Paginated?inventoryId=${inventoryId}&pageNumber=${pageNumber}&refresh=${refresh}&refreshPageRow=${refreshPageRow}`);
+  }
+
   closedInventory(id: number): Observable<object> {
     return this.httpClient.get(this.coreURL + `api/inventory/ClosedInventory?id=${id}`);
   }

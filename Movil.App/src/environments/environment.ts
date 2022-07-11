@@ -4,5 +4,5 @@
 
 export const environment = {
   production: false,
-  coreURL: '/',
+  coreURL: 'http://localhost:61090/',
 }

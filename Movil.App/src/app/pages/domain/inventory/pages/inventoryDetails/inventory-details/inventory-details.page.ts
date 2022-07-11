@@ -31,14 +31,10 @@ export class InventoryDetailsPage implements OnInit {
 
   itemParam: string;
   currentPageNumberRequest: number;
-  currentPageNumber: number;
-
-  nextPage: number;
 
   constructor(
     private modalController: ModalController,
     private navParams: NavParams,
-    private form: FormBuilder,
     private inventoryService: InventoryService,
     private toastController: ToastController,
     private alertController: AlertController,
@@ -49,10 +45,8 @@ export class InventoryDetailsPage implements OnInit {
 
   ngOnInit() {
     this.currentPageNumberRequest = 1;
-    this.nextPage = 1;
     this.inventory = this.navParams.get('data');
-    this.getInventoryDetails_Paginated('next');
-    //this.getInventoryDetails_Paginated_InfinityScroll(this.currentPageNumberRequest);
+    this.getInventoryDetails();
   }
 
 
@@ -68,42 +62,20 @@ export class InventoryDetailsPage implements OnInit {
   }
 
 
-  generateNextPage(orign: string): number {
-    if (orign == 'next') {
-      this.nextPage += 1;
-    }
-
-    return this.nextPage;
-  }
-
-
-
   closeModal(value: boolean) {
     this.modalController.dismiss(value);
   }
 
 
-  getInventoryDetails_Paginated(origin: string, refresh: boolean = false) {
+  getInventoryDetails(event?) {
 
-    //Geration of pages
-    if (!refresh) {
-      if (origin == 'next') {
-        this.nextPage = this.generateNextPage(origin);
-        this.currentPageNumberRequest = this.nextPage - 1;
-      }
-
-      if (origin == 'back') {
-        if (this.currentPageNumber > 1) {
-          this.currentPageNumberRequest = this.currentPageNumber - 1;
-          this.currentPageNumber -= 1;
-          this.nextPage -= 1;
-        }
-      }
+    if (event) {
+      event.target.complete();
     }
 
-    if (refresh) {
-      if (this.currentPageNumberRequest > this.currentPageNumber) {
-        this.currentPageNumberRequest -= 1;
+    if (this.inventoryDetailsPaginated.Records) {
+      if (this.inventoryDetailsPaginated.Records.length === this.inventoryDetailsPaginated.Pagination.TotalRecord) {
+        return;
       }
     }
 
@@ -111,52 +83,23 @@ export class InventoryDetailsPage implements OnInit {
 
       if (this.currentPageNumberRequest === 1) {
         this.inventoryDetailsPaginated = response.Data;
-
       } else {
-        this.inventoryDetailsPaginated.Records = response.Data;
+        this.inventoryDetailsPaginated.Records.push(...response.Data);
       }
-      if (!refresh) {
-        if (origin == 'next') {
-          this.currentPageNumberRequest = this.nextPage
-          this.currentPageNumber = this.currentPageNumberRequest - 1;
-        }
-      }
-
+      this.currentPageNumberRequest += 1;
     },
       error => {
         console.log(JSON.stringify(error));
       });
   }
 
-
-  getInventoryDetails_Paginated_InfinityScroll(currentPage: number) {
-
-    this.inventoryService.getInventoryDetails_Paginated(this.inventory.Id, currentPage).subscribe((response: Iresponse) => {
-      
-      if (this.currentPageNumberRequest === 1) {
-        this.inventoryDetailsPaginated = response.Data;
-
-      } else {
-        this.inventoryDetailsPaginated.Records = response.Data;
-      }
-
-      this.nextPage += 1;
-      this.currentPageNumberRequest = this.nextPage;
-
+  getInventoryDetailsRefresh() {
+    this.inventoryService.getInventoryDetails_Paginated_Refresh(this.inventory.Id, 1, true, this.inventoryDetailsPaginated.Records.length).subscribe((response: Iresponse) => {
+      this.inventoryDetailsPaginated.Records = response.Data;
     },
       error => {
         console.log(JSON.stringify(error));
       });
-  }
-
-
-  loadData(event) {
-    setTimeout(() => {
-      event.target.complete();
-
-      this.getInventoryDetails_Paginated_InfinityScroll(this.nextPage);
-
-    }, 500);
   }
 
 
@@ -169,7 +112,7 @@ export class InventoryDetailsPage implements OnInit {
     modal.onDidDismiss().then((param) => {
       if (param.data) {
         this.setFocus_Searchbar();
-        this.getInventoryDetails_Paginated('next', true);
+        this.getInventoryDetailsRefresh();
       }
     });
 
@@ -250,7 +193,7 @@ export class InventoryDetailsPage implements OnInit {
     this.inventoryService.deleteInventoryDetail(id).subscribe((response: Iresponse) => {
       if (response.Code === responseCode.ok) {
         this.showMessage(response.Message, 'success', 1000);
-        this.getInventoryDetails_Paginated('next');
+        this.getInventoryDetailsRefresh();
       } else {
         this.showMessage(response.Message, 'danger', 4000);
       }

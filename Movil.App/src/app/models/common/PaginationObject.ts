@@ -1,6 +1,6 @@
 
 export class PaginationObject {
-    Records: any;
+    Records: Array<any>;
     Pagination: Pagination;
 }
 
